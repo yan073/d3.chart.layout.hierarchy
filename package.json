@@ -14,16 +14,16 @@
     "hierarchy"
   ],
 
-  "homepage": "https://github.com/bansaghi/d3.chart.layout.hierarchy/",
+  "homepage": "https://github.com/annaghi/d3.chart.layout.hierarchy/",
   "author": "Anna Bansaghi <anna.bansaghi@mamikon.net> (http://mamikon.net)",
 
   "repository": {
     "type": "git",
-    "url": "git://github.com/bansaghi/d3.chart.layout.hierarchy.git"
+    "url": "git://github.com/annaghi/d3.chart.layout.hierarchy.git"
   },
 
   "bugs": {
-    "url": "https://github.com/bansaghi/d3.chart.layout.hierarchy/issues"
+    "url": "https://github.com/annaghi/d3.chart.layout.hierarchy/issues"
   },
   
   "directories": {
