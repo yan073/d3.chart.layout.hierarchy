@@ -6,29 +6,30 @@ Collection of interactive and reusable [D3 hierarchy layouts](https://github.com
 
 The input is a vertex-labeled rooted tree, and the output is a zoomable, collapsible hierarchy layout.
 
-For more information [see the Wiki](https://github.com/bansaghi/d3.chart.layout.hierarchy/wiki).
 
 ## Example bl.ocks
 
 ##### Cluster Layout
-* [Cartesian Cluster](http://bl.ocks.org/annabansi/ffc9d995f77e9ccd4ea9)
-* [Radial Cluster](http://bl.ocks.org/annabansi/e490c7c238a67a77996d)
+* [Cartesian Cluster](http://bl.ocks.org/annaghi/ffc9d995f77e9ccd4ea9)
+* [Radial Cluster](http://bl.ocks.org/annaghi/e490c7c238a67a77996d)
 
 ##### Pack Layout
-* [Nested Pack](http://bl.ocks.org/annabansi/4b542562da43e1ae3e40)
-* [Flattened Pack](http://bl.ocks.org/annabansi/7588173d69ec85451ee2)
+* [Nested Pack](http://bl.ocks.org/annaghi/4b542562da43e1ae3e40)
+* [Flattened Pack](http://bl.ocks.org/annaghi/7588173d69ec85451ee2)
 
 ##### Partition Layout
-* [Arc Partition](http://bl.ocks.org/annabansi/2617fed0c286365c7f49)
-* [Rectangle Partition](http://bl.ocks.org/annabansi/4fde0154055c0f0580b7)
+* [Arc Partition](http://bl.ocks.org/annaghi/2617fed0c286365c7f49)
+* [Rectangle Partition](http://bl.ocks.org/annaghi/4fde0154055c0f0580b7)
 
 ##### Tree Layout
-* [Cartesian Tree](http://bl.ocks.org/annabansi/b0e74b395d1909657ded)
-* [Radial Tree](http://bl.ocks.org/annabansi/f3cbb5e7b759b6a58aff)
+* [Cartesian Tree](http://bl.ocks.org/annaghi/b0e74b395d1909657ded)
+* [Radial Tree](http://bl.ocks.org/annaghi/f3cbb5e7b759b6a58aff)
 
 ##### Treemap Layout
-* [Treemap](http://bl.ocks.org/annabansi/5d24b37ebe077d4e919f)
+* [Treemap](http://bl.ocks.org/annaghi/5d24b37ebe077d4e919f)
 
+
+For more information [see the Wiki](https://github.com/annaghi/d3.chart.layout.hierarchy/wiki).
 
 
 ## Build Instructions
