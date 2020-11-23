@@ -40,7 +40,15 @@ d3.chart("hierarchy").extend("treemap", {
     });
   },
   
+  getCatName: function(d) { 
+    return d.isLeaf ? d.parent.name.charAt(0) : null;
+  },
+
   getColour: function(d) { 
+    var cat = this.getCatName(d);
+    if (cat) {
+      console.log( cat + '-' + d.name);
+    }
     return "#31a080"; 
   },
 
