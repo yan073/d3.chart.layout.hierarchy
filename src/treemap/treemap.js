@@ -25,7 +25,7 @@ d3.chart("hierarchy").extend("treemap", {
           this.append("rect")
             .attr("width", function(d) { return d.dx; })
             .attr("height", function(d) { return d.dy; })
-            .attr("fill", function(d) { return d.parent ? chart.d3.colorScale(d.parent[chart.options.name]) : null; });
+            .attr("fill", function(d) { return chart.getColour(d); });
 
           this.append("text")
             .attr("x", function(d) { return d.dx / 2; })
@@ -39,7 +39,10 @@ d3.chart("hierarchy").extend("treemap", {
       }
     });
   },
-
+  
+  getColour: function(d) { 
+    return "#31a080"; 
+  },
 
   transform: function(root) {
     var chart  = this;
