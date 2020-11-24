@@ -49,7 +49,8 @@ d3.chart("hierarchy").extend("treemap", {
     if (cat) {
       console.log( cat + '-' + d.name);
     }
-    return "#31a080"; 
+    //return "#31a080"; 
+    return d.parent ? this.d3.colorScale(d.parent[this.options.name]) : null;
   },
 
   transform: function(root) {
