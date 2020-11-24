@@ -5,22 +5,17 @@ d3.chart("hierarchy").extend("treemap", {
     var chart = this;
 
     chart.extColor = {}
-    chart.extColor.domainLength = 100;
-    chart.extColor['1'] =  d3.scale.linear().domain([1,chart.extColor.domainLength])
-                            .interpolate(d3.interpolateHcl)
-                            .range(["white", "blue"]);
-    chart.extColor['2'] =  d3.scale.linear().domain([1,chart.extColor.domainLength])
-    .interpolate(d3.interpolateHcl)
-    .range(["white", "red"]);
-    chart.extColor['3'] =  d3.scale.linear().domain([1,chart.extColor.domainLength])
-    .interpolate(d3.interpolateHcl)
-    .range(["white", "yellow"]);
-    chart.extColor['4'] =  d3.scale.linear().domain([1,chart.extColor.domainLength])
-    .interpolate(d3.interpolateHcl)
-    .range(["white", "green"]);
-    chart.extColor['u'] =  d3.scale.linear().domain([1,chart.extColor.domainLength])
-    .interpolate(d3.interpolateHcl)
-    .range(["white", "black"]);
+    chart.extColor.domainLength = 9;
+    chart.extColor['1'] =  d3.scale.ordinal().range(
+      ['#f7fcfd','#e5f5f9','#ccece6','#99d8c9','#66c2a4','#41ae76','#238b45','#006d2c','#00441b'] );
+    chart.extColor['2'] =  d3.scale.ordinal().range(
+      ['#f7fcfd','#e0ecf4','#bfd3e6','#9ebcda','#8c96c6','#8c6bb1','#88419d','#810f7c','#4d004b'] );
+    chart.extColor['3'] =  d3.scale.ordinal().range(
+      ['#fff7ec','#fee8c8','#fdd49e','#fdbb84','#fc8d59','#ef6548','#d7301f','#b30000','#7f0000'] );
+    chart.extColor['4'] =  d3.scale.ordinal().range(
+      ['#fff7fb','#ece7f2','#d0d1e6','#a6bddb','#74a9cf','#3690c0','#0570b0','#045a8d','#023858'] );
+    chart.extColor['u'] =  d3.scale.linear().domain([0,chart.extColor.domainLength-1])
+            .range(["white", "black"]);
 
     chart.d3.layout = d3.layout.treemap();
 
@@ -60,7 +55,7 @@ d3.chart("hierarchy").extend("treemap", {
 
   getColour: function(d) { 
     var cat = d.isLeaf ? d.parent.name.charAt(0) : null;//'1', '2', '3', '4', 'u'
-    return cat ? this.extColor[cat](Math.floor((Math.random() * this.extColor.domainLength) + 1)) : null;
+    return cat ? this.extColor[cat](Math.floor(Math.random() * 9 )) : null;
   },
 
   transform: function(root) {
