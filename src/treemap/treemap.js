@@ -4,6 +4,24 @@ d3.chart("hierarchy").extend("treemap", {
   initialize : function() {
     var chart = this;
 
+    chart.extColor = {}
+    chart.extColor.domainLength = 100;
+    chart.extColor['1'] =  d3.scale.linear().domain([1,chart.extColor.domainLength])
+                            .interpolate(d3.interpolateHcl)
+                            .range(["white", "blue"]);
+    chart.extColor['2'] =  d3.scale.linear().domain([1,chart.extColor.domainLength])
+    .interpolate(d3.interpolateHcl)
+    .range(["white", "red"]);
+    chart.extColor['3'] =  d3.scale.linear().domain([1,chart.extColor.domainLength])
+    .interpolate(d3.interpolateHcl)
+    .range(["white", "yellow"]);
+    chart.extColor['4'] =  d3.scale.linear().domain([1,chart.extColor.domainLength])
+    .interpolate(d3.interpolateHcl)
+    .range(["white", "green"]);
+    chart.extColor['u'] =  d3.scale.linear().domain([1,chart.extColor.domainLength])
+    .interpolate(d3.interpolateHcl)
+    .range(["white", "black"]);
+
     chart.d3.layout = d3.layout.treemap();
 
     chart.layer("base", chart.layers.base, {
@@ -39,18 +57,10 @@ d3.chart("hierarchy").extend("treemap", {
       }
     });
   },
-  
-  getCatName: function(d) { 
-    return d.isLeaf ? d.parent.name.charAt(0) : null;
-  },
 
   getColour: function(d) { 
-    var cat = this.getCatName(d);
-    if (cat) {
-      console.log( cat + '-' + d.name);
-    }
-    //return "#31a080"; 
-    return d.parent ? this.d3.colorScale(d.parent[this.options.name]) : null;
+    var cat = d.isLeaf ? d.parent.name.charAt(0) : null;//'1', '2', '3', '4', 'u'
+    return cat ? this.extColor[cat](Math.floor((Math.random() * this.extColor.domainLength) + 1)) : null;
   },
 
   transform: function(root) {
