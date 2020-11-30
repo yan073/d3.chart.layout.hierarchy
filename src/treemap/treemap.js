@@ -55,7 +55,6 @@ d3.chart("hierarchy").extend("treemap", {
           this.append("rect")
             .attr("width", function(d) { return d.dx; })
             .attr("height", function(d) { return d.dy; });
-            //.attr("fill", function(d) { return chart.getColour(d); });
 
           this.append("text")
             .attr("x", function(d) { return d.dx / 2; })
@@ -72,50 +71,28 @@ d3.chart("hierarchy").extend("treemap", {
 
   getLeafClass : function(d) { 
     let cat = d.parent.name.charAt(0);//'1', '2', '3', '4', 'u'
-    var lcls = "";
     if (cat != null) {
-      lcls = "leafc" + cat + "_";
+      var categoryName = d.name;
       if (cat != 'u') {
-        var categoryName = d.parent.name;
+        categoryName = d.parent.name;
         if (categoryName.length > 2) {
           let index = categoryName.indexOf('.', 2);
           if(index > 0) {
             categoryName = categoryName.substring(0, index);
-            lcls = lcls + this.stringToIntHash( categoryName, this.extColorCount+1, 1);
           }
         }
       }
-      else {
-        lcls = lcls + this.stringToIntHash(d.name, this.extColorCount+1, 1);
-      }
+      return "leafc" + cat + "_" + this.stringToIntHash(categoryName, this.extColorCount+1, 1);
     }
-    return lcls;
+    return "";
   },
+
   stringToIntHash: function(str, upperbound, lowerbound) {
     let result = 0;
     for (let i = 0; i < str.length; i++) {
       result = result + str.charCodeAt(i);
     }  
     return (result % (upperbound - lowerbound)) + lowerbound;
-  },
-
-  getColour: function(d) { 
-    let cat = d.isLeaf ? d.parent.name.charAt(0) : null;//'1', '2', '3', '4', 'u'
-    if (cat != null) {
-      var colorRange = this.extColor[cat];
-      if (cat != 'u') {
-        var categoryName = d.parent.name;
-        if (categoryName.length > 2) {
-          let index = categoryName.indexOf('.', 2);
-          if(index > 0) {
-            categoryName = categoryName.substring(0, index);
-          }
-        }
-        return colorRange( this.stringToIntHash( categoryName, this.extColorCount, 0) );
-      }
-      return colorRange( this.stringToIntHash(d.name, this.extColorCount,0) );
-    }
-    return null;
   },
 
   transform: function(root) {
