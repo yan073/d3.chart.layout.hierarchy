@@ -11,17 +11,22 @@ d3.chart("hierarchy").extend("treemap", {
     console.log(defc2);
     chart.extColor = {}
     chart.extColorCount = 3;
-    chart.extColor['1'] =  d3.scale.ordinal().range(
-        ['#0090D8','#00AAFF','#59C8FF'] );
-    chart.extColor['2'] =  d3.scale.ordinal().range(
-      ['#FF585B','#D90004','#FF0004'] );
-    chart.extColor['3'] =  d3.scale.ordinal().range(
-      ['#FFFFB2','#FFFF00','#D8D800'] );
-    chart.extColor['4'] =  d3.scale.ordinal().range(
-      ['#00FFD3','#61D4B4','#B2FFF2'] );
-    chart.extColor['u'] =  d3.scale.ordinal().range(
-      ['#D5D5D5','#A7A7A7','#F2F2F2'] );
-
+    var colorPalette = [
+        ['#0090D8','#00AAFF','#59C8FF'],
+        ['#FF585B','#D90004','#FF0004'],
+        ['#FFFFB2','#FFFF00','#D8D800'],
+        ['#00FFD3','#61D4B4','#B2FFF2'],
+        ['#D5D5D5','#A7A7A7','#F2F2F2']
+        ];
+    if (typeof cathCategoryColours !== 'undefined') {
+      colorPalette = cathCategoryColours;
+    }
+    chart.extColor['1'] =  d3.scale.ordinal().range( colorPalette[0] );
+    chart.extColor['2'] =  d3.scale.ordinal().range( colorPalette[1] );
+    chart.extColor['3'] =  d3.scale.ordinal().range( colorPalette[2] );
+    chart.extColor['4'] =  d3.scale.ordinal().range( colorPalette[3] );
+    chart.extColor['u'] =  d3.scale.ordinal().range( colorPalette[4] );
+    
     chart.d3.layout = d3.layout.treemap();
 
     chart.layer("base", chart.layers.base, {
