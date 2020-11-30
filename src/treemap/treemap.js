@@ -18,6 +18,7 @@ d3.chart("hierarchy").extend("treemap", {
         ['#00FFD3','#61D4B4','#B2FFF2'],
         ['#D5D5D5','#A7A7A7','#F2F2F2']
         ];
+
     if (typeof cathCategoryColours !== 'undefined') {
       colorPalette = cathCategoryColours;
     }
@@ -41,14 +42,20 @@ d3.chart("hierarchy").extend("treemap", {
 
       events: {
         "enter": function() {
-          this.classed( "leaf", function(d) { return d.isLeaf; });
+          //this.classed( "leaf", function(d) { return d.isLeaf; });
+          this.attr("class", function(d) { 
+            var classvar = "cell";
+            if (d.isLeaf){ 
+              classvar = classvar + " leaf " + chart.getLeafClass(d);
+            }
+            return classvar; });
 
           this.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
           
           this.append("rect")
             .attr("width", function(d) { return d.dx; })
-            .attr("height", function(d) { return d.dy; })
-            .attr("fill", function(d) { return chart.getColour(d); });
+            .attr("height", function(d) { return d.dy; });
+            //.attr("fill", function(d) { return chart.getColour(d); });
 
           this.append("text")
             .attr("x", function(d) { return d.dx / 2; })
@@ -63,6 +70,27 @@ d3.chart("hierarchy").extend("treemap", {
     });
   },
 
+  getLeafClass : function(d) { 
+    let cat = d.parent.name.charAt(0);//'1', '2', '3', '4', 'u'
+    var lcls = "";
+    if (cat != null) {
+      lcls = "leafc" + cat + "_";
+      if (cat != 'u') {
+        var categoryName = d.parent.name;
+        if (categoryName.length > 2) {
+          let index = categoryName.indexOf('.', 2);
+          if(index > 0) {
+            categoryName = categoryName.substring(0, index);
+            lcls = lcls + this.stringToIntHash( categoryName, this.extColorCount+1, 1);
+          }
+        }
+      }
+      else {
+        lcls = lcls + this.stringToIntHash(d.name, this.extColorCount+1, 1);
+      }
+    }
+    return lcls;
+  },
   stringToIntHash: function(str, upperbound, lowerbound) {
     let result = 0;
     for (let i = 0; i < str.length; i++) {
@@ -83,9 +111,9 @@ d3.chart("hierarchy").extend("treemap", {
             categoryName = categoryName.substring(0, index);
           }
         }
-        return colorRange( this.stringToIntHash( categoryName, 0, this.extColorCount) );
+        return colorRange( this.stringToIntHash( categoryName, this.extColorCount, 0) );
       }
-      return colorRange( this.stringToIntHash(d.name, 0, this.extColorCount) );
+      return colorRange( this.stringToIntHash(d.name, this.extColorCount,0) );
     }
     return null;
   },
