@@ -63,9 +63,31 @@ d3.chart("hierarchy").extend("treemap", {
     });
   },
 
+  stringToIntHash: function(str, upperbound, lowerbound) {
+    let result = 0;
+    for (let i = 0; i < str.length; i++) {
+      result = result + str.charCodeAt(i);
+    }  
+    return (result % (upperbound - lowerbound)) + lowerbound;
+  },
+
   getColour: function(d) { 
-    var cat = d.isLeaf ? d.parent.name.charAt(0) : null;//'1', '2', '3', '4', 'u'
-    return cat ? this.extColor[cat](Math.floor(Math.random() * this.extColorCount )) : null;
+    let cat = d.isLeaf ? d.parent.name.charAt(0) : null;//'1', '2', '3', '4', 'u'
+    if (cat != null) {
+      var colorRange = this.extColor[cat];
+      if (cat != 'u') {
+        var categoryName = d.parent.name;
+        if (categoryName.length > 2) {
+          let index = categoryName.indexOf('.', 2);
+          if(index > 0) {
+            categoryName = categoryName.substring(0, index);
+          }
+        }
+        return colorRange( this.stringToIntHash( categoryName, 0, this.extColorCount) );
+      }
+      return colorRange( this.stringToIntHash(d.name, 0, this.extColorCount) );
+    }
+    return null;
   },
 
   transform: function(root) {
