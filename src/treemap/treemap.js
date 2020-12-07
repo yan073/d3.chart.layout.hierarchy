@@ -34,6 +34,12 @@ d3.chart("hierarchy").extend("treemap", {
             return classvar; });
 
           this.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+          this.attr("data-tippy-content", function(d) { 
+            if (d.isLeaf) {
+              return d.parent.name + ' ' + d.protein;
+            }
+            return null;
+          });
           
           this.append("rect")
             .attr("width", function(d) { return d.dx; })
