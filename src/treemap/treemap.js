@@ -3,7 +3,7 @@ d3.chart("hierarchy").extend("treemap", {
  
   initialize : function() {
     var chart = this;
-
+  
     chart.d3.layout = d3.layout.treemap();
 
     chart.layer("base", chart.layers.base, {
@@ -18,14 +18,20 @@ d3.chart("hierarchy").extend("treemap", {
 
       events: {
         "enter": function() {
-          this.classed( "leaf", function(d) { return d.isLeaf; });
+          //this.classed( "leaf", function(d) { return d.isLeaf; });
+          this.attr("class", function(d) { 
+            var classvar = "cell";
+            if (d.isLeaf){ 
+              classvar = classvar + " leaf " + chart.getLeafClass(d);
+            }
+            return classvar; });
 
           this.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+          this.attr("data-tippy-content", d => d.isLeaf ? chart.getLeafContent(d) : null);
           
           this.append("rect")
             .attr("width", function(d) { return d.dx; })
-            .attr("height", function(d) { return d.dy; })
-            .attr("fill", function(d) { return d.parent ? chart.d3.colorScale(d.parent[chart.options.name]) : null; });
+            .attr("height", function(d) { return d.dy; });
 
           this.append("text")
             .attr("x", function(d) { return d.dx / 2; })
@@ -40,6 +46,29 @@ d3.chart("hierarchy").extend("treemap", {
     });
   },
 
+  getLeafContent : function(d) { 
+    let cath = d.parent.name;
+    let cat = cath.charAt(0);//'1', '2', '3', '4', 'u'
+    var content = '<a href="https://aquaria.app/' + d.name + '"><strong>'+d.name+'</strong></a>';
+    if (cat != 'u') {
+      content = content + ', <a href="http://www.cathdb.info/version/latest/superfamily/' + cath + '/classification" ><strong>' + cath +'</strong></a>';
+    }
+    content += '<p>Total number of clinical trials mentioning this protein: ' + d.size + '</p>';
+    return content;
+  },
+
+  getLeafClass : function(d) { 
+    let cat = d.parent.name.charAt(0);//'1', '2', '3', '4', 'u'
+    return cat != null ? "leafc" + cat : "";
+  },
+
+  stringToIntHash: function(str, upperbound, lowerbound) {
+    let result = 0;
+    for (let i = 0; i < str.length; i++) {
+      result = result + str.charCodeAt(i);
+    }  
+    return (result % (upperbound - lowerbound)) + lowerbound;
+  },
 
   transform: function(root) {
     var chart  = this;
