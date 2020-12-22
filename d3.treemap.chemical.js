@@ -1,6 +1,6 @@
 /*!
- * d3.chart.layout.hierarchy - v0.3.8
- * https://github.com/bansaghi/d3.chart.layout.hierarchy/
+ * d3.treemap.chemical - v0.1
+ * https://github.com/annaghi/d3.chart.layout.hierarchy/
  * 
  * Copyright (c) 2015 Anna Bansaghi <anna.bansaghi@mamikon.net> (http://mamikon.net)
  * Library released under BSD-3-Clause license.
@@ -1072,7 +1072,7 @@ d3.chart("hierarchy").extend("treemap", {
  
   initialize : function() {
     var chart = this;
-
+  
     chart.d3.layout = d3.layout.treemap();
 
     chart.layer("base", chart.layers.base, {
@@ -1087,14 +1087,19 @@ d3.chart("hierarchy").extend("treemap", {
 
       events: {
         "enter": function() {
-          this.classed( "leaf", function(d) { return d.isLeaf; });
-
+          //this.classed( "leaf", function(d) { return d.isLeaf; });
+          this.attr("class", function(d) { 
+            var classvar = "cell";
+            if (d.isLeaf){ 
+              classvar = classvar + " leaf " + chart.getLeafClass(d);
+            }
+            return classvar; });
           this.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+          this.attr("data-tippy-content", d => d.isLeaf ? chart.getLeafContent(d) : null);
           
           this.append("rect")
             .attr("width", function(d) { return d.dx; })
-            .attr("height", function(d) { return d.dy; })
-            .attr("fill", function(d) { return d.parent ? chart.d3.colorScale(d.parent[chart.options.name]) : null; });
+            .attr("height", function(d) { return d.dy; });
 
           this.append("text")
             .attr("x", function(d) { return d.dx / 2; })
@@ -1109,6 +1114,37 @@ d3.chart("hierarchy").extend("treemap", {
     });
   },
 
+  getLeafContent : function(d) { 
+    let cluster = d.parent.name;
+    var content = '<p><strong>' + d.compound + '</strong></p>';
+    if ('pubchem_id' in d) { 
+      content = content + '<p><strong>'
+      if (cluster != 'unknown') {
+        content = content + cluster + ', ';
+      }  
+      content = content + 'pubchem' + d.pubchem_id + '</strong></p>';
+    }
+    return content;
+  },
+
+  getLeafClass : function(d) { 
+    let cluster = d.parent.name;
+    if (cluster.charAt(0) == 'u'){
+      return "leafcu";
+    }
+    let index = cluster.lastIndexOf('.');
+    if (index > 0) {
+      return "leafc" + cluster.substring(index+1);
+    }
+  },
+
+  stringToIntHash: function(str, upperbound, lowerbound) {
+    let result = 0;
+    for (let i = 0; i < str.length; i++) {
+      result = result + str.charCodeAt(i);
+    }  
+    return (result % (upperbound - lowerbound)) + lowerbound;
+  },
 
   transform: function(root) {
     var chart  = this;

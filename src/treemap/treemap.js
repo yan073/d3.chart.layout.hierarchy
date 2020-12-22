@@ -25,18 +25,6 @@ d3.chart("hierarchy").extend("treemap", {
               classvar = classvar + " leaf " + chart.getLeafClass(d);
             }
             return classvar; });
-          this.attr("level2", function(d) { 
-            if (d.isLeaf) {
-              let cath = d.parent.name;
-              if (cath.length > 2) {
-                let index = cath.indexOf('.', 2);
-                if(index > 0) {
-                  return cath.substring(0, index);
-                }      
-              }
-            }
-            return null;
-          });
           this.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
           this.attr("data-tippy-content", d => d.isLeaf ? chart.getLeafContent(d) : null);
           
@@ -58,19 +46,27 @@ d3.chart("hierarchy").extend("treemap", {
   },
 
   getLeafContent : function(d) { 
-    let cath = d.parent.name;
-    let cat = cath.charAt(0);//'1', '2', '3', '4', 'u'
-    var content = '<a href="https://aquaria.app/' + d.name + '"><strong>'+d.name+'</strong></a>';
-    if (cat != 'u') {
-      content = content + ', <a href="http://www.cathdb.info/version/latest/superfamily/' + cath + '/classification" ><strong>' + cath +'</strong></a>';
+    let cluster = d.parent.name;
+    var content = '<p><strong>' + d.compound + '</strong></p>';
+    if ('pubchem_id' in d) { 
+      content = content + '<p><strong>'
+      if (cluster != 'unknown') {
+        content = content + cluster + ', ';
+      }  
+      content = content + 'pubchem' + d.pubchem_id + '</strong></p>';
     }
-    content += '<p>Total number of clinical trials mentioning this protein: ' + d.size + '</p>';
     return content;
   },
 
   getLeafClass : function(d) { 
-    let cat = d.parent.name.charAt(0);//'1', '2', '3', '4', 'u'
-    return cat != null ? "leafc" + cat : "";
+    let cluster = d.parent.name;
+    if (cluster.charAt(0) == 'u'){
+      return "leafcu";
+    }
+    let index = cluster.lastIndexOf('.');
+    if (index > 0) {
+      return "leafc" + cluster.substring(index+1);
+    }
   },
 
   stringToIntHash: function(str, upperbound, lowerbound) {

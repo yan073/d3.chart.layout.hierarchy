@@ -58,7 +58,7 @@ module.exports = function(grunt) {
       },
       build: {
         files: {
-          "d3.chart.layout.hierarchy.js":
+          "d3.treemap.chemical.js":
           [
             "src/start.frag",
 
@@ -90,7 +90,7 @@ module.exports = function(grunt) {
       },
       release: {
         files: {
-          "d3.chart.layout.hierarchy.min.js": "d3.chart.layout.hierarchy.js"
+          "d3.treemap.chemical.min.js": "d3.treemap.chemical.js"
         }
       }
     }

@@ -1,8 +1,8 @@
 {
-  "name": "d3.chart.layout.hierarchy",
-  "description": "Reusable D3 hierarchy layouts built with d3.Chart",
-  "version": "0.3.8",
-  "main": "./d3.chart.layout.hierarchy.js",
+  "name": "d3.treemap.chemical",
+  "description": "Reusable D3 hierarchy layouts built with d3.Chart for chemical data",
+  "version": "0.1",
+  "main": "./d3.treemap.chemical.js",
   "license": "BSD-3-Clause",
   "keywords": [
     "d3.js",
