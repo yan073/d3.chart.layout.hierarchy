@@ -1087,13 +1087,21 @@ d3.chart("hierarchy").extend("treemap", {
 
       events: {
         "enter": function() {
-          //this.classed( "leaf", function(d) { return d.isLeaf; });
           this.attr("class", function(d) { 
             var classvar = "cell";
             if (d.isLeaf){ 
-              classvar = classvar + " leaf " + chart.getLeafClass(d);
+              classvar = classvar + " leaf"; 
             }
-            return classvar; });
+            return classvar; 
+          });
+          
+          this.attr("data-cluster", function(d) { 
+              if (d.isLeaf) {
+                return d.parent.name;
+              }
+              return null;
+          });
+  
           this.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
           this.attr("data-tippy-content", d => d.isLeaf ? chart.getLeafContent(d) : null);
           
@@ -1125,17 +1133,6 @@ d3.chart("hierarchy").extend("treemap", {
       content = content + 'pubchem' + d.pubchem_id + '</strong></p>';
     }
     return content;
-  },
-
-  getLeafClass : function(d) { 
-    let cluster = d.parent.name;
-    if (cluster.charAt(0) == 'u'){
-      return "leafcu";
-    }
-    let index = cluster.lastIndexOf('.');
-    if (index > 0) {
-      return "leafc" + cluster.substring(index+1);
-    }
   },
 
   stringToIntHash: function(str, upperbound, lowerbound) {
