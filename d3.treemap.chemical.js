@@ -1126,7 +1126,7 @@ d3.chart("hierarchy").extend("treemap", {
     let cluster = d.parent.name;
     var content = '<p><strong>' + d.compound + '</strong></p>';
     if ('pubchem_id' in d) { 
-      content = content + '<p><strong>'
+      content = content + '<p><strong>';
       if (cluster != 'unknown') {
         content = content + cluster + ', ';
       }  
